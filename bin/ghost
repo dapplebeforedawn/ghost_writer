@@ -1,20 +1,23 @@
 #! /usr/bin/env ruby
 require 'stringio'
+require 'options'
 
 class Ghost
-  GHOST_SPEED = 0.02
+  attr_accessor :speed
+  def initialize file, speed
+    @file  = file
+    @speed = speed
 
-  def initialize file
-    @file = file
+    trap("SIGINT") { @speed = 0 }
   end
 
   def write
     StringIO.new(@file.read).each_char do |chr|
       print chr
-      sleep GHOST_SPEED
+      sleep speed
     end
   end
 
 end
 
-Ghost.new(ARGF).write
+Ghost.new(ARGF, Options.parse!.speed).write
