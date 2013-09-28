@@ -1,0 +1,20 @@
+#! /usr/bin/env ruby
+require 'stringio'
+
+class Ghost
+  GHOST_SPEED = 0.02
+
+  def initialize file
+    @file = file
+  end
+
+  def write
+    StringIO.new(@file.read).each_char do |chr|
+      print chr
+      sleep GHOST_SPEED
+    end
+  end
+
+end
+
+Ghost.new(ARGF).write
